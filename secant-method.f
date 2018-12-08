@@ -1,0 +1,42 @@
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C               ROOT-FINDING: SECANT METHOD 
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C For: MATH 116 at Dartmouth College Winter '17
+C 
+C Uses the secant method to find the root of the 
+C user-defined function F(X) 
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+      PROGRAM MSECANT 
+C
+      TOL = 1.0E-06
+      A  = 1.0
+      B  = 2.0
+      DX = (B-A)/10.
+      X0 = (A+B)/2.0
+      CALL SECANT (DL,X0,DX,ISTEP)
+C      WRITE (6,999) ISTEP,X0,DX
+      STOP
+      END
+C
+      SUBROUTINE SECANT (DL,X0,DX,ISTEP)
+C
+      ISTEP = 0
+      X1 = X0 + DX
+  100 IF (ABS(DX).GT.TOL) THEN
+        D  = F(X1) - F(X0)
+        X2 = X1 - F(X1)*(X1-X0)/D
+        X0 = X1
+        X1 = X2
+        DX = X1 - X0
+        ISTEP = ISTEP + 1
+        WRITE (6,999) ISTEP,X0,DX
+        GOTO 100
+      ENDIF
+      RETURN
+  999 FORMAT (I4,2F16.8)
+      END
+C
+      FUNCTION F(X)
+        F = X ** 3 - SIN(X)
+      RETURN
+      END
